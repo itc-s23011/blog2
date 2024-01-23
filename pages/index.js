@@ -1,16 +1,6 @@
-export default function Home () {
-  return (
-    <>
-      <header>HEADER</header>
+import Hero from '../components/hero'
 
-      <main>
-        <dev>
-          <h1>CUBE</h1>
-          <p>アウトプットしていくサイト</p>
-        </dev>
-      </main>
-
-      <footer>FOOTER</footer>
-    </>
-  )
+const Home = () => {
+  return <Hero />
 }
+export default Home
