@@ -1,9 +1,10 @@
-const Home = () => {
+const Hero = ({ title, subtitle, imageOn = false }) => {
   return (
     <div>
-      <h1>CUBE</h1>
-      <p>アウトプットしていくサイト</p>
+      <h1>{title}</h1>
+      <p>{subtitle}</p>
+      {imageOn && <figure> [Image] </figure>}
     </div>
   )
 }
-export default Home
+export default Hero
