@@ -1,0 +1,3 @@
+.flexContainer {
+  composes: spacebetween from 'styles/utils.module.css';
+}
