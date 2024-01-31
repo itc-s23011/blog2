@@ -16,11 +16,11 @@
     align-self: flex-start;
   }
 
-  .sidevar * {
+  .sidebar * {
     text-align: right;
   }
 
-  .sidevar :is(div, ul) {
+  .sidebar :is(div, ul) {
     width: fit-content;
     margin-left: auto;
     place-items: flex-end;
