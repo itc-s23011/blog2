@@ -1,18 +1,20 @@
 /* 両端揃え */
 .spaceBetween {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* 横並び */
 .sideBySide {
-  flex-direction: row;
-  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 768px) {
   .sideBySide {
-    flex-direction: space-between;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
