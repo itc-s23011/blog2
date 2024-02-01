@@ -11,7 +11,7 @@ const Social = ({ iconSize = 'initial' }) => {
   return (
     <ul className={styles.list} style={{ '--icon-size': iconSize }}>
       <li>
-        <a href='https://twitter.css'>
+        <a href='https://twitter.com'>
           <FontAwesomeIcon icon={faTwitter} />
           <span className='sr-only'>Twitter</span>
         </a>
