@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function Meta ({ pageTitle }) {
+const Meta = ({ pageTitle }) => {
   return (
     <Head>
       <title>{pageTitle}</title>
@@ -8,3 +8,4 @@ export default function Meta ({ pageTitle }) {
     </Head>
   )
 }
+export default Meta
