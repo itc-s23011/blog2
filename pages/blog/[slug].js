@@ -13,10 +13,9 @@ import {
 import ConvertBody from 'components/convert-body'
 import PostCategories from 'components/post-categories'
 import Pagination from 'components/pagination'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import { getPlaiceholder } from 'plaiceholder'
 import { getImageBuffer } from 'lib/getImageBuffer'
-
 import { eyecatchLocal } from 'lib/constants'
 
 const Post = ({
@@ -40,15 +39,15 @@ const Post = ({
       />
       <article>
         <PostHeader title={title} subtitle='Blog Article' publish={publish} />
-
         <figure>
           <Image
+            key={eyecatch.url}
             src={eyecatch.url}
             alt=''
             layout='responsive'
             width={eyecatch.width}
             height={eyecatch.height}
-            sizes='(min-width: 1152px) 1152px, 100vw'
+            sizes='(min-width; 1152px) 1152px, 100vw'
             priority
             placeholder='blur'
             blurDataURL={eyecatch.blurDataURL}
@@ -74,43 +73,43 @@ const Post = ({
     </Container>
   )
 }
-export default Post
-
-export async function getStaticPaths () {
+const getStaticPaths = async () => {
   const allSlugs = await getAllSlugs()
 
   return {
     paths: allSlugs.map(({ slug }) => `/blog/${slug}`),
-    fallback: false
+    fallback: 'blocking'
   }
 }
 
-export async function getStaticProps (context) {
+const getStaticProps = async context => {
   const slug = context.params.slug
-
   const post = await getPostBySlug(slug)
+  if (!post) {
+    return { notFound: true }
+  } else {
+    const description = extractText(post.content)
+    const eyecatch = post.eyecatch ?? eyecatchLocal
+    const imageBuffer = await getImageBuffer(eyecatch.url)
+    const { base64 } = await getPlaiceholder(imageBuffer)
+    eyecatch.blurDataURL = base64
+    const allSlugs = await getAllSlugs()
+    const [prevPost, nextPost] = prevNextPost(allSlugs, slug)
 
-  const description = extractText(post.content)
-
-  const eyecatch = post.eyecatch ?? eyecatchLocal
-
-  const imageBuffer = await getImageBuffer(eyecatch.url)
-  const { base64 } = await getPlaiceholder(imageBuffer)
-  eyecatch.blurDataURL = base64
-
-  const allSlugs = await getAllSlugs()
-  const [prevPost, nextPost] = prevNextPost(allSlugs, slug)
-
-  return {
-    props: {
-      title: post.title,
-      publish: post.publishDate,
-      content: post.content,
-      eyecatch: eyecatch,
-      categories: post.categories,
-      description: description,
-      prevPost: prevPost,
-      nextPost: nextPost
+    return {
+      props: {
+        title: post.title,
+        publish: post.publishDate,
+        content: post.content,
+        eyecatch: eyecatch,
+        categories: post.categories,
+        description: description,
+        prevPost: prevPost,
+        nextPost: nextPost
+      }
     }
   }
 }
+export { getStaticPaths }
+export { getStaticProps }
+export default Post

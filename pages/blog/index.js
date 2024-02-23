@@ -5,7 +5,6 @@ import Hero from 'components/hero'
 import Posts from 'components/posts'
 import { getPlaiceholder } from 'plaiceholder'
 import { getImageBuffer } from 'lib/getImageBuffer'
-
 import { eyecatchLocal } from 'lib/constants'
 
 const Blog = ({ posts }) => {
@@ -22,19 +21,18 @@ const getStaticProps = async () => {
   const posts = await getAllPosts()
 
   for (const post of posts) {
-    if (!post.hasOwnProperty('eyecatch')) {
+    if (!Object.prototype.hasOwnProperty.call(post, 'eyecatch')) {
       post.eyecatch = eyecatchLocal
     }
-
     const imageBuffer = await getImageBuffer(post.eyecatch.url)
     const { base64 } = await getPlaiceholder(imageBuffer)
     post.eyecatch.blurDataURL = base64
   }
   return {
     props: {
-      posts
+      posts: posts
     }
   }
 }
-export default Blog
 export { getStaticProps }
+export default Blog
