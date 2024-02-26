@@ -5,8 +5,6 @@ import Hero from 'components/hero'
 import Posts from 'components/posts'
 import Pagination from 'components/pagination'
 import { getPlaiceholder } from 'plaiceholder'
-import { getImageBuffer } from 'lib/getImageBuffer'
-
 import { eyecatchLocal } from 'lib/constants'
 
 const Home = ({ posts }) => {
@@ -22,20 +20,18 @@ const Home = ({ posts }) => {
 
 const getStaticProps = async () => {
   const posts = await getAllPosts(4)
-
   for (const post of posts) {
-    if (!Object.prototype.hasOwnProperty.call(post, 'eyecatch')) {
+    if (!post.hasOwnProperty('eyecatch')) {
       post.eyecatch = eyecatchLocal
     }
-    const imageBuffer = await getImageBuffer(post.eyecatch.url)
-    const { base64 } = await getPlaiceholder(imageBuffer)
+    const { base64 } = await getPlaiceholder(post.eyecatch.url)
     post.eyecatch.blurDataURL = base64
   }
   return {
     props: {
-      posts: posts
+      posts
     }
   }
 }
-export { getStaticProps }
 export default Home
+export { getStaticProps }
